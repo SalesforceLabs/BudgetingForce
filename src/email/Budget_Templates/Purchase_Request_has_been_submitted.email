@@ -1,0 +1,10 @@
+A purchase request has been submitted for approval 
+
+
+Purchase Request Name: {!Purchase_Request__c.Name} 
+Requester:  {!Purchase_Request__c.Requester__c}
+Purchase Request Amount: {!Purchase_Request__c.Purchase_Request_Amount__c}
+Vendor: 
+
+Submitted date: {!Purchase_Request__c.LastModifiedDate}
+Submitted by: {!Purchase_Request__c.LastModifiedBy}

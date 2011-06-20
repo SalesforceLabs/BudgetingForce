@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EmailTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <available>true</available>
+    <encodingKey>ISO-8859-1</encodingKey>
+    <name>Change Request for PR</name>
+    <style>none</style>
+    <subject>A Change request has been made for {!Purchase_Request__c.Country__c} PR {!Purchase_Request__c.Name} : {!Purchase_Request__c.Link}</subject>
+    <type>text</type>
+</EmailTemplate>

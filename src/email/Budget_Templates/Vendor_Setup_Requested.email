@@ -1,0 +1,9 @@
+A new vendor has been requested by {!Purchase_Request__c.LastModifiedBy} for the following Purchase Request.
+
+Purchase Request Name: {!Purchase_Request__c.Name}
+Purchase Request Link: {!Purchase_Request__c.Link}
+Requester: {!Purchase_Request__c.Requester__c}
+Create Date: {!Purchase_Request__c.CreatedDate}
+Amount: {!Purchase_Request__c.Purchase_Request_Amount__c}
+Description: {!Purchase_Request__c.Description__c}
+Created by: {!Purchase_Request__c.CreatedBy}

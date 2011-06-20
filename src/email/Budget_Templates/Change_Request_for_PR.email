@@ -1,0 +1,7 @@
+A change request has been made for Purchase Request :  {!Purchase_Request__c.Name} : {!Purchase_Request__c.Link}
+
+Status: {!Purchase_Request__c.Status__c}
+Action: {!Purchase_Request__c.Request_Action__c}
+Requested Amount: {!Purchase_Request__c.Purchase_Request_Amount__c}
+Change Request Amount: {!Purchase_Request__c.Change_Request_Amount__c}
+Total Amount Including Change Request: {!Purchase_Request__c.Total_PR_Amount_with_Changes__c}

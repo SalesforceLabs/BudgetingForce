@@ -1,0 +1,1642 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Level 4 of the budgeting and planning hierarchy</description>
+    <enableActivities>true</enableActivities>
+    <enableEnhancedLookup>true</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Alert_Sourcing__c</fullName>
+        <defaultValue>&quot;No&quot;</defaultValue>
+        <externalId>false</externalId>
+        <label>Alert Sourcing</label>
+        <length>3</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Approved_by_Strategic_Sourcer__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Approved by Strategic Sourcer</label>
+        <trackHistory>false</trackHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Approved_in_Oracle__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Approved in Oracle</label>
+        <trackHistory>false</trackHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Apr_Amt_Contractor__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_3__c )=4,  Month_3_Amt_Contr__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Apr Amt Contractor</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Apr_Amt__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_3__c )=4,  Month_3_Amt__c  ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Apr Amt</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Aug_Amt_Contractor__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_1__c )=8,  Month_1_Amt_Contr__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Aug Amt Contractor</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Aug_Amt__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_1__c )=8, Month_1_Amt__c  ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Aug Amt</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Budget_Line_Approved_Amount__c</fullName>
+        <externalId>false</externalId>
+        <formula>Budget_Line__r.Budget_Line_Amount__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Budget Line Approved Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Budget_Line_Unrequested_Amount__c</fullName>
+        <externalId>false</externalId>
+        <formula>Budget_Line__r.Uncommitted_Approved_Budget__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Budget Line Unrequested Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Budget_Line__c</fullName>
+        <externalId>false</externalId>
+        <label>Budget Line</label>
+        <referenceTo>Budget_Line__c</referenceTo>
+        <relationshipLabel>Purchase Requests (Level 4)</relationshipLabel>
+        <relationshipName>Purchase_Requests1</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <trackHistory>false</trackHistory>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Category_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>RIGHT( TEXT(Category__c) , 6)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Category Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Category__c</fullName>
+        <externalId>false</externalId>
+        <label>Category</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Advertising Services</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Charitable Expenses</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Computers</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Conferences</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Direct Marketing</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Interactive Marketing</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Promotions</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Public Relations</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Change_Request_Amount__c</fullName>
+        <defaultValue>0</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>Please provide the requested change amount you would like to apply to this approved purchase request.  If you are creating a new Purchase Request, leave this field blank</inlineHelpText>
+        <label>Change Request Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Contractor_Change_Request_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Contractor Change Request Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Country_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>RIGHT( TEXT(Country__c), 3)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Country Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Country__c</fullName>
+        <externalId>false</externalId>
+        <label>Country</label>
+        <picklist>
+            <controllingField>Region__c</controllingField>
+            <picklistValues>
+                <fullName>US</fullName>
+                <controllingFieldValues>US/Canada</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>All EMEA</fullName>
+                <controllingFieldValues>EMEA</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Austria</fullName>
+                <controllingFieldValues>EMEA</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Italy</fullName>
+                <controllingFieldValues>EMEA</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Belgium</fullName>
+                <controllingFieldValues>EMEA</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Luxembourg</fullName>
+                <controllingFieldValues>EMEA</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Denmark</fullName>
+                <controllingFieldValues>EMEA</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Sweden</fullName>
+                <controllingFieldValues>EMEA</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>UK</fullName>
+                <controllingFieldValues>EMEA</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Netherlands</fullName>
+                <controllingFieldValues>EMEA</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Australia</fullName>
+                <controllingFieldValues>APAC</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>New Zealand</fullName>
+                <controllingFieldValues>APAC</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Hong Kong</fullName>
+                <controllingFieldValues>APAC</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Korea</fullName>
+                <controllingFieldValues>APAC</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>China</fullName>
+                <controllingFieldValues>APAC</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>LACA</fullName>
+                <controllingFieldValues>L. America</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Japan</fullName>
+                <controllingFieldValues>Japan</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Finland</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Portugal</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>France</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Spain</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Germany</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Greece</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Hungary</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Switzerland</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Middle East</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Africa</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Taiwan</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Singapore</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>India</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Ireland</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Date_Goods_Services_will_be_Delivered__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Please indicate the expected date of when goods or services will have been fully received</inlineHelpText>
+        <label>Date Goods/Services will be Delivered</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Date_of_Planned_Expense__c</fullName>
+        <externalId>false</externalId>
+        <label>Date of Planned Expense</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Dec_Amt_Contractor__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_2__c )=12,  Month_2_Amt_Contr__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Dec Amt Contractor</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Dec_Amt__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_2__c )=11, Month_2_Amt__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Dec Amt</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Department_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>Department__r.Code__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Department Code</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Department__c</fullName>
+        <externalId>false</externalId>
+        <label>Department</label>
+        <referenceTo>Department__c</referenceTo>
+        <relationshipLabel>Purchase Requests</relationshipLabel>
+        <relationshipName>Purchase_Requests</relationshipName>
+        <trackHistory>true</trackHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <externalId>false</externalId>
+        <label>Description</label>
+        <length>32000</length>
+        <trackHistory>false</trackHistory>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Feb_Amt_Contractor__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_1__c )=2,  Month_1_Amt_Contr__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Feb Amt Contractor</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Feb_Amt__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_1__c )=2, Month_1_Amt__c  ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Feb Amt</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>GL_Segment__c</fullName>
+        <externalId>false</externalId>
+        <formula>Country_Code__c  &amp; &quot;-&quot; &amp;  TEXT(Department_Code__c)  &amp; &quot;-&quot; &amp;   Category_Code__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>GL Segment</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Jan_Amt_Contractor__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_3__c )=1,  Month_3_Amt_Contr__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Jan Amt Contractor</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Jan_Amt__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_3__c )=1, Month_3_Amt__c  ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Jan Amt</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Jul_Amt_Contractro__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_3__c )=7,  Month_3_Amt_Contr__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Jul Amt Contractor</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Jul_Amt__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_3__c )=7, Month_3_Amt__c  ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Jul Amt</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Jun_Amt_Contractor__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_2__c )=6,  Month_2_Amt_Contr__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Jun Amt Contractor</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Jun_Amt__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_2__c )=6, Month_2_Amt__c  ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Jun Amt</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Mar_Amt_Contractor__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_2__c )=3,  Month_2_Amt_Contr__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Mar Amt Contractor</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Mar_Amt__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_2__c )=3, Month_2_Amt__c  ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Mar Amt</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>May_Amt_Contractor__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_1__c )=5,  Month_1_Amt_Contr__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>May Amt Contractor</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>May_Amt__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_1__c )=5,  Month_1_Amt__c  ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>May Amt</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Month_1_Amt_Contr__c</fullName>
+        <externalId>false</externalId>
+        <label>Month 1 Amt Contr (Feb,May, Aug, or Nov)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Month_1_Amt__c</fullName>
+        <defaultValue>0</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>February
+May
+August
+November</inlineHelpText>
+        <label>Month 1 Amt (Feb, May, Aug, or Nov)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Month_2_Amt_Contr__c</fullName>
+        <externalId>false</externalId>
+        <label>Month 2 Amt Contr (Mar,Jun, Sep, or Dec)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Month_2_Amt__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>March
+June
+September
+December</inlineHelpText>
+        <label>Month 2 Amt (Mar, Jun, Sep, or Dec)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Month_3_Amt_Contr__c</fullName>
+        <externalId>false</externalId>
+        <label>Month 3 Amt Contr (Apr,Jul, Oct, or Jan)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Month_3_Amt__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>April
+July
+October
+January</inlineHelpText>
+        <label>Month 3 Amt (Apr, Jul, Oct or Jan)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Notes__c</fullName>
+        <externalId>false</externalId>
+        <label>Notes</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Nov_Amt_Contractor__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_1__c )=11,  Month_1_Amt_Contr__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Nov Amt Contractor</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Nov_Amt__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_1__c )=11, Month_1_Amt__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Nov Amt</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Oct_Amt_Contractor__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_3__c )=10,  Month_3_Amt_Contr__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Oct Amt Contractor</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Oct_Amt__c</fullName>
+        <externalId>false</externalId>
+        <formula>if( MONTH( Quarter__r.Month_3__c ) =10, Month_3_Amt__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Oct Amt</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>PO__c</fullName>
+        <externalId>true</externalId>
+        <label>PO#</label>
+        <length>15</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PR__c</fullName>
+        <externalId>true</externalId>
+        <label>PR#</label>
+        <length>15</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Prepaid_Expense__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Prepaid Expense</label>
+        <trackHistory>false</trackHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Pro_Serv__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>Is this purchase request related to professional services work to be performed?</inlineHelpText>
+        <label>Pro Serv?</label>
+        <trackHistory>false</trackHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Purchase_Request_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Purchase Request Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Purchase_Request_Contractor_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Purchase Request Contractor Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Quarter__c</fullName>
+        <externalId>false</externalId>
+        <label>Quarter</label>
+        <referenceTo>Period__c</referenceTo>
+        <relationshipLabel>Purchase Requests</relationshipLabel>
+        <relationshipName>Quarter</relationshipName>
+        <trackHistory>false</trackHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Reason_for_Increase_Decrease__c</fullName>
+        <externalId>false</externalId>
+        <label>Reason for Increase/Decrease</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Recurring__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <label>Recurring?</label>
+        <trackHistory>false</trackHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Region__c</fullName>
+        <externalId>false</externalId>
+        <label>Region</label>
+        <picklist>
+            <picklistValues>
+                <fullName>US/Canada</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>EMEA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>APAC</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Japan</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>L. America</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Request_Action__c</fullName>
+        <externalId>false</externalId>
+        <label>Request Action</label>
+        <picklist>
+            <picklistValues>
+                <fullName>New</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Change Request - Increase</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Change Request - Decrease</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Request_New_Vendor_Setup__c</fullName>
+        <defaultValue>false</defaultValue>
+        <externalId>false</externalId>
+        <inlineHelpText>Check this box if you require a new vendor to be created of if you cannot find your vendor in the list.  A notification will be sent to Strategic Sourcing with your request.</inlineHelpText>
+        <label>Request New Vendor Setup?</label>
+        <trackHistory>false</trackHistory>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Requester__c</fullName>
+        <externalId>false</externalId>
+        <label>Requester</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Purchase_Requests</relationshipName>
+        <trackHistory>true</trackHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Secondary_Requestor__c</fullName>
+        <externalId>false</externalId>
+        <label>Secondary Requestor</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Purchase_Requests1</relationshipName>
+        <trackHistory>false</trackHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Sep_Amt_Contractor__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_2__c )=9,  Month_2_Amt_Contr__c ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Sep Amt Contractor</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Sep_Amt__c</fullName>
+        <externalId>false</externalId>
+        <formula>if(Month( Quarter__r.Month_2__c )=9, Month_2_Amt__c  ,0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Sep Amt</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>As a user you can choose: 
+New/Not Submitted
+Submitted
+Change Request
+Cancelled</inlineHelpText>
+        <label>Status</label>
+        <picklist>
+            <picklistValues>
+                <fullName>New/Not Submitted</fullName>
+                <default>true</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Submitted</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>In Process</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Change Request</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Cancelled</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Approved</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Total_Contractor_PR_Amount_with_Changes__c</fullName>
+        <externalId>false</externalId>
+        <formula>if ( ISPICKVAL(Request_Action__c,&quot;Change Request - Increase&quot;), Purchase_Request_Contractor_Amount__c + Contractor_Change_Request_Amount__c ,
+if(ISPICKVAL(Request_Action__c,&quot;Change Request - Decrease&quot;), Purchase_Request_Contractor_Amount__c - Contractor_Change_Request_Amount__c  , Purchase_Request_Contractor_Amount__c  ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total Contractor PR Amount with Changes</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Total_PR_Amount_with_Changes__c</fullName>
+        <externalId>false</externalId>
+        <formula>if ( ISPICKVAL(Request_Action__c,&quot;Change Request - Increase&quot;), Purchase_Request_Amount__c +  Change_Request_Amount__c ,
+if(ISPICKVAL(Request_Action__c,&quot;Change Request - Decrease&quot;), Purchase_Request_Amount__c -  Change_Request_Amount__c ,Purchase_Request_Amount__c ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Total PR Amount with Changes</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Vendor_Placeholder__c</fullName>
+        <externalId>false</externalId>
+        <label>Vendor-change to lookup</label>
+        <length>25</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Purchase Request</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Purchase Request Name</label>
+        <trackHistory>true</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Purchase Requests</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Contractor_Spend</fullName>
+        <active>true</active>
+        <label>Contractor Spend</label>
+        <picklistValues>
+            <picklist>Category__c</picklist>
+            <values>
+                <fullName>Advertising Services</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Charitable Expenses</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Computers</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Conferences</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Direct Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Interactive Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Promotions</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Public Relations</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Country__c</picklist>
+            <values>
+                <fullName>Africa</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>All EMEA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Australia</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Austria</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Belgium</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>China</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Denmark</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Finland</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>France</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Germany</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Greece</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Hong Kong</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Hungary</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>India</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Ireland</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Italy</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Japan</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Korea</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>LACA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Luxembourg</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Middle East</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Netherlands</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New Zealand</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Portugal</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Singapore</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Spain</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sweden</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Switzerland</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Taiwan</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>UK</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>US</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Region__c</picklist>
+            <values>
+                <fullName>APAC</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>EMEA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Japan</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>L%2E America</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>US%2FCanada</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Request_Action__c</picklist>
+            <values>
+                <fullName>Change Request - Decrease</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Change Request - Increase</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Approved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Cancelled</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Change Request</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>In Process</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New%2FNot Submitted</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Submitted</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Program_Spend</fullName>
+        <active>true</active>
+        <label>Program Spend</label>
+        <picklistValues>
+            <picklist>Category__c</picklist>
+            <values>
+                <fullName>Advertising Services</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Charitable Expenses</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Computers</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Conferences</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Direct Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Interactive Marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Promotions</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Public Relations</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Country__c</picklist>
+            <values>
+                <fullName>Africa</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>All EMEA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Australia</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Austria</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Belgium</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>China</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Denmark</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Finland</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>France</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Germany</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Greece</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Hong Kong</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Hungary</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>India</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Ireland</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Italy</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Japan</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Korea</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>LACA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Luxembourg</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Middle East</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Netherlands</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New Zealand</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Portugal</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Singapore</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Spain</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Sweden</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Switzerland</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Taiwan</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>UK</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>US</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Region__c</picklist>
+            <values>
+                <fullName>APAC</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>EMEA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Japan</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>L%2E America</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>US%2FCanada</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Request_Action__c</picklist>
+            <values>
+                <fullName>Change Request - Decrease</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Change Request - Increase</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Approved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Cancelled</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Change Request</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>In Process</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New%2FNot Submitted</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Submitted</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts>
+        <customTabListAdditionalFields>Purchase_Request_Amount__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>PO__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>PR__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Department__c</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Purchase_Request_Amount__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>PO__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>PR__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Department__c</lookupDialogsAdditionalFields>
+        <searchFilterFields>Purchase_Request_Amount__c</searchFilterFields>
+        <searchFilterFields>PO__c</searchFilterFields>
+        <searchFilterFields>PR__c</searchFilterFields>
+        <searchFilterFields>Department__c</searchFilterFields>
+        <searchResultsAdditionalFields>Purchase_Request_Amount__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>PO__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>PR__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Department__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Change_Amount_not_negative</fullName>
+        <active>true</active>
+        <errorConditionFormula>Change_Request_Amount__c&lt;0</errorConditionFormula>
+        <errorDisplayField>Change_Request_Amount__c</errorDisplayField>
+        <errorMessage>Please enter your change in absolute value</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Change_Request_Status</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(OR(ISPICKVAL( Request_Action__c  ,&quot;Change Request - Increase&quot;), ISPICKVAL(Request_Action__c ,&quot;Change Request - Decrease&quot;)) , 
+AND(
+NOT(OR(ISPICKVAL(Status__c,&quot;Change Request&quot;),ISPICKVAL(Status__c,&quot;In Progress&quot;),CONTAINS(TEXT(Status__c),&quot;Approved&quot;))))
+)</errorConditionFormula>
+        <errorDisplayField>Status__c</errorDisplayField>
+        <errorMessage>Status must = Change Request, In Progress or Approved if Request Action = Increase or Decrease</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Contractor_Change_Amount_not_negative</fullName>
+        <active>true</active>
+        <errorConditionFormula>Contractor_Change_Request_Amount__c &lt;0</errorConditionFormula>
+        <errorDisplayField>Contractor_Change_Request_Amount__c</errorDisplayField>
+        <errorMessage>Please enter your change in absolute value</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>PR_Action_Change_Amount_required</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(OR(ISPICKVAL(Request_Action__c, &quot;Change Request - Increase&quot;),ISPICKVAL(Request_Action__c, &quot;Change Request - Decrease&quot;)), OR(ISBLANK(Change_Request_Amount__c),ISNULL(Change_Request_Amount__c),Change_Request_Amount__c=0),
+ $RecordType.Name = &quot;Program Spend&quot;
+)</errorConditionFormula>
+        <errorDisplayField>Change_Request_Amount__c</errorDisplayField>
+        <errorMessage>Change Amount is required if the Request Action on the  Purchase Request = Increase or Decrease</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>PR_Action_ContractChange_Amount_required</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(OR(ISPICKVAL(Request_Action__c, &quot;Increase&quot;),ISPICKVAL(Request_Action__c, &quot;Decrease&quot;)), OR(ISBLANK( Contractor_Change_Request_Amount__c ),ISNULL(Contractor_Change_Request_Amount__c ),Contractor_Change_Request_Amount__c =0),
+ $RecordType.Name = &quot;Contractor Spend&quot;
+)</errorConditionFormula>
+        <errorDisplayField>Contractor_Change_Request_Amount__c</errorDisplayField>
+        <errorMessage>Change Amount is required if the Request Action on the  Purchase Request = Increase or Decrease</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Period</fullName>
+        <active>false</active>
+        <errorConditionFormula>Quarter__c &lt;&gt;  Budget_Line__r.Program_Budget__r.Budget_Owner__r.Period__c</errorConditionFormula>
+        <errorDisplayField>Quarter__c</errorDisplayField>
+        <errorMessage>The period you have chosen does not match the period of the Budget Line</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Purchase_Request_Amt_Cannot_be_Changed</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(
+NOT( ISPICKVAL(Status__c,&quot;New/Not Submitted&quot;)), ISCHANGED( Purchase_Request_Amount__c  ),
+
+NOT(OR( $User.Username = &apos;mchan@budget.com&apos;, $User.Username = &apos;mhristova@budget.com&apos;, $User.Username = &apos;epark@budget.com&apos;,$User.Username = &apos;mrosenbaum@budget.com&apos;, $User.Username = &apos;dchang@budget.com&apos;,  $User.Username = &apos;jbadanguio@budget.com&apos;, $User.Username = &apos;mchan@dreamforce.com&apos;, $User.Username = &apos;mhristova@dreamforce.com&apos;, $User.Username = &apos;epark@dreamforce.com&apos;,$User.Username = &apos;mrosenbaum@dreamforce.com&apos;, $User.Username = &apos;dchang@dreamforce.com&apos;,  $User.Username = &apos;jbadanguio@dreamforce.com&apos;)))</errorConditionFormula>
+        <errorDisplayField>Purchase_Request_Amount__c</errorDisplayField>
+        <errorMessage>PR Amount cannot be changed unless the PR is in New Status</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Purchase_Request_cannot_exceed_Budget</fullName>
+        <active>true</active>
+        <errorConditionFormula>OR((Budget_Line__r.Rollup_of_Purchase_Request_Amount__c - PRIORVALUE( Total_PR_Amount_with_Changes__c ) + Total_PR_Amount_with_Changes__c &gt; Budget_Line__r.Budget_Line_Amount__c),AND(ISNEW(), Budget_Line__r.Rollup_of_Purchase_Request_Amount__c + Purchase_Request_Amount__c &gt; Budget_Line__r.Budget_Line_Amount__c)
+)</errorConditionFormula>
+        <errorDisplayField>Purchase_Request_Amount__c</errorDisplayField>
+        <errorMessage>The sum of all the purchase requests for this budget line cannot exceed the approved budget amount.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Reason_for_increase_decrease_required</fullName>
+        <active>true</active>
+        <errorConditionFormula>OR(
+AND(OR( ISPICKVAL(Request_Action__c,&quot;Change Request - Increase&quot;), ISPICKVAL(Request_Action__c,&quot;Change Request - Decrease&quot;)),
+
+OR(ISNULL(Reason_for_Increase_Decrease__c) , Reason_for_Increase_Decrease__c=&quot; &quot;,ISBLANK(Reason_for_Increase_Decrease__c)))
+,
+AND(OR(ISCHANGED(Request_Action__c),ISCHANGED( Change_Request_Amount__c ),ISCHANGED( Contractor_Change_Request_Amount__c)),  OR( ISPICKVAL(Request_Action__c,&quot;Change Request - Increase&quot;), ISPICKVAL(Request_Action__c,&quot;Change Request - Decrease&quot;)), 
+NOT(ISCHANGED(Reason_for_Increase_Decrease__c)))
+)</errorConditionFormula>
+        <errorDisplayField>Reason_for_Increase_Decrease__c</errorDisplayField>
+        <errorMessage>You must enter a new reason for increase/decrease if this is a new request, or update the reason if you have made a change to the requested amount.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Status</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(OR(
+AND( NOT(ISPICKVAL(PRIORVALUE(Status__c),&quot;Approved&quot;)), $Profile.Name &lt;&gt;&quot;System Administrator&quot;, ISPICKVAL(Status__c,&quot;Approved&quot;)),
+AND( NOT(ISPICKVAL(PRIORVALUE(Status__c),&quot;In Progress&quot;)), $Profile.Name &lt;&gt;&quot;System Administrator&quot;, ISPICKVAL(Status__c,&quot;In Progress&quot;)),
+AND( NOT(ISPICKVAL(PRIORVALUE(Status__c),&quot;Rejected&quot;)), $Profile.Name &lt;&gt;&quot;System Administrator&quot;, ISPICKVAL(Status__c,&quot;Rejected&quot;)),
+AND( NOT(ISPICKVAL(PRIORVALUE(Status__c),&quot;Cancelled&quot;)), $Profile.Name &lt;&gt;&quot;System Administrator&quot;, ISPICKVAL(Status__c,&quot;Cancelled&quot;))
+),
+NOT(OR( $User.Username = &apos;mchan@budget.com&apos;, $User.Username = &apos;mhristova@budget.com&apos;, $User.Username = &apos;epark@budget.com&apos;,$User.Username = &apos;mrosenbaum@budget.com&apos;, $User.Username = &apos;dchang@budget.com&apos;,  $User.Username = &apos;jbadanguio@budget.com&apos;, $User.Username = &apos;mchan@dreamforce.com&apos;, $User.Username = &apos;mhristova@dreamforce.com&apos;, $User.Username = &apos;epark@dreamforce.com&apos;,$User.Username = &apos;mrosenbaum@dreamforce.com&apos;, $User.Username = &apos;dchang@dreamforce.com&apos;,  $User.Username = &apos;jbadanguio@dreamforce.com&apos;)))</errorConditionFormula>
+        <errorMessage>You cannot update the Status</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Sum_of_Monthly_Amounts</fullName>
+        <active>true</active>
+        <errorConditionFormula>(NULLVALUE(Month_3_Amt__c,0) + NULLVALUE(Month_2_Amt__c,0)  + NULLVALUE(Month_1_Amt__c,0) ) &lt;&gt;   Total_PR_Amount_with_Changes__c</errorConditionFormula>
+        <errorDisplayField>Month_1_Amt__c</errorDisplayField>
+        <errorMessage>The Sum of Monthly Amounts must equal the Purchase Request Amount</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Sum_of_Monthly_Amounts_Contractor</fullName>
+        <active>true</active>
+        <errorConditionFormula>(NULLVALUE( Month_3_Amt_Contr__c ,0) + NULLVALUE( Month_2_Amt_Contr__c ,0)  + NULLVALUE( Month_1_Amt_Contr__c ,0) ) &lt;&gt;    Total_Contractor_PR_Amount_with_Changes__c</errorConditionFormula>
+        <errorDisplayField>Month_1_Amt__c</errorDisplayField>
+        <errorMessage>The Sum of Monthly Contractor Amounts must equal the Total Contractor Purchase Request Amount (including change requested amounts)</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Vendor_required</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND( ISBLANK(  Vendor_Placeholder__c )   ,TEXT(Status__c)&lt;&gt;&quot;New/Not Submitted&quot;)</errorConditionFormula>
+        <errorDisplayField>Vendor_Placeholder__c</errorDisplayField>
+        <errorMessage>Vendor is required.  
+If you cannot find the vendor in the list or need a new vendor to be created, change your Purchase Request Status to new and check the &apos;Request New Vendor Setup?&apos; box and save the record.</errorMessage>
+    </validationRules>
+    <webLinks>
+        <fullName>Manage_Budgets</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>url</linkType>
+        <masterLabel>Manage Budgets</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <url>{!$Site.Domain}/apex/budgetManager?bid={!Purchase_Request__c.Id}&amp;level=purchaseRequest</url>
+    </webLinks>
+</CustomObject>

@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <customSettingsVisibility>Public</customSettingsVisibility>
+    <enableEnhancedLookup>false</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Error_Amount_Must_Be_Greater_Than_Zero__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Amount Must Be Greater Than Zero</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_Amount_must_not_be_empty__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Amount must not be empty</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_Budget_Line_Level_2__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Budget Line Level 2</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_Budget_Line_Level_3__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Budget Line Level 3</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_Budget_Line_Level__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Budget Line Level</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_Budget_Owner_Level_2__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Budget Owner Level 2</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_Budget_Owner_Level_3__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Budget Owner Level 3</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_Budget_Owner_Level__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Budget Owner Level</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_Enter_A_Valid_Amount_Number__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Enter A Valid Amount Number</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_Indicate_level__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Indicate level</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_No_Contingency_Budget__c</fullName>
+        <externalId>false</externalId>
+        <label>Error No Contingency Budget</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_Program_Budget_Level_2__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Program Budget Level 2</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_Program_Budget_Level_3__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Program Budget Level 3</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_Program_Budget_Level__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Program Budget Level</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_Request_Can_Not_Be_Processed__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Request Can Not Be Processed</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Error_Updating__c</fullName>
+        <externalId>false</externalId>
+        <label>Error Updating</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>FYEnd__c</fullName>
+        <description>SFDC&apos;s fiscal year end</description>
+        <externalId>false</externalId>
+        <label>FYEnd</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>FYStart__c</fullName>
+        <description>SFDC&apos; fiscal year start</description>
+        <externalId>false</externalId>
+        <label>FYStart</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ManagerNoteInUI1__c</fullName>
+        <externalId>false</externalId>
+        <label>ManagerNoteInUI1</label>
+        <required>true</required>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>ManagerNoteInUI2__c</fullName>
+        <externalId>false</externalId>
+        <label>ManagerNoteInUI2</label>
+        <required>false</required>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Public_Group_Allowed__c</fullName>
+        <externalId>false</externalId>
+        <label>Public Group Allowed</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Q1End__c</fullName>
+        <description>SFDC&apos;s 1st quarter end</description>
+        <externalId>false</externalId>
+        <label>Q1End</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Q1Start__c</fullName>
+        <description>SFDC&apos;s 1st quarter start</description>
+        <externalId>false</externalId>
+        <label>Q1Start</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Q2End__c</fullName>
+        <description>SFDC&apos;s 2nd quarter end</description>
+        <externalId>false</externalId>
+        <label>Q2End</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Q2Start__c</fullName>
+        <description>SFDC&apos;s 2nd quarter start</description>
+        <externalId>false</externalId>
+        <label>Q2Start</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Q3End__c</fullName>
+        <description>SFDC&apos;s 3rd quarter end</description>
+        <externalId>false</externalId>
+        <label>Q3End</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Q3Start__c</fullName>
+        <description>SFDC&apos;s 3rd quarter start</description>
+        <externalId>false</externalId>
+        <label>Q3Start</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Q4End__c</fullName>
+        <description>SFDC&apos;s 4th quarter end</description>
+        <externalId>false</externalId>
+        <label>Q4End</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Q4Start__c</fullName>
+        <description>SFDC&apos;s 4th quarter start</description>
+        <externalId>false</externalId>
+        <label>Q4Start</label>
+        <required>true</required>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>User_Not_Allowed_To_Reclaim__c</fullName>
+        <externalId>false</externalId>
+        <label>User Not Allowed To Reclaim</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>ReclaimBudgetCS</label>
+</CustomObject>

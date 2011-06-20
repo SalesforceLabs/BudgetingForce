@@ -1,0 +1,175 @@
+<!-- 
+Copyright (c) 2011, salesforce.com, Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, 
+are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice, 
+    this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+    * Neither the name of the salesforce.com, Inc. nor the names of its contributors 
+    may be used to endorse or promote products derived from this software 
+    without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<apex:page showHeader="false" sidebar="false"
+	standardStylesheets="true" Controller="ReclaimBudgetController" contentType="text/html">
+  
+	<style>
+		body {
+			margin:5px;
+			font-size:11px;
+		}
+	 	.formTable{
+	 		font-size:11px;
+	 		border:0px none;
+	 	}
+	 
+	 	.formTable tr td{
+	 		border: 0px;
+	 		padding:5px;
+	 	}
+		
+		.error {
+			font-size:11px;
+			font-weight:bold;
+			color:#ff0000;
+		}
+		
+		.required {
+			color:#ff0000;
+		}		
+	</style>
+	
+	<apex:outputPanel rendered="{!!isCustomSetting}">
+    	The following manual step is necessary:
+    	<ul>
+    	  <li>Define values for the ReclaimBudgetCS__c custom setting.</li>
+    	    <ul>
+    	      <li>Go to Setup -> Develop -> Custom Settings -> ReclaimBudgetCS -> Click on Manage button.</li> 
+			  <li>In the next window click on the New button that appears on top of the page.</li> 
+			  <li>After that, please define the required values for the custom setting. Once you defined
+    	      all the values, click on Save.</li>
+    	    </ul>    
+    	</ul>    				
+	</apex:outputPanel>
+	
+	<apex:outputPanel rendered="{!isUserAllowed}">
+		<apex:outputPanel rendered="{!(!isProcessed)}">
+			<h3>Reclaim Budget</h3>
+			<hr/>	
+			<apex:form id="mainPopup">
+			    <div id="amountToReduce">
+			    	<span class="error"><apex:outputText value="{!errorMsg}" escape="false" /></span>
+			    	<table class="formTable" border="1">
+			    		<tr>
+			    			<td>
+			    				<apex:outputText value="Uncommitted Approved Budget:" rendered="{!level == 'budgetLine'}"/>
+			    				<apex:outputText value="Approved Budget Remaining:" rendered="{!level == 'programBudget'}"/>
+			    				<apex:outputText value="Budget Remaining:" rendered="{!level == 'budgetOwner'}"/>
+			    			</td>
+			    			<td><apex:outputText value="{!remaining}" /></td>
+			    		</tr>		    	
+			    		<tr>
+			     			<td>Amount<span class="required">*</span>:</td>
+							<td><apex:inputText id="amount" value="{!amount}"/></td>
+			    		</tr>
+			    		<tr>
+			    		    <td valign="top">Reason<span class="required">*</span>:</td>
+			    			<td><apex:inputTextarea id="reason" cols="27" rows="3" value="{!reason}"/></td>
+			    		</tr>
+		           		<tr>
+		           			<td>&nbsp;</td><td><input type="button" value="Save" onclick="validate();"/>&nbsp;&nbsp;
+		           			<input type="button" value="Close" onclick="closePopupWindow();" /></td>
+		           		</tr>
+		           		<apex:actionFunction name="save" action="{!save}" />
+		 			</table>
+		 		</div>
+		 		<script>
+		 			var amountComponentId = '{!$Component.amount}';
+		 			var reasonComponentId = '{!$Component.reason}';
+		 		</script>
+		 	</apex:form>
+	 	</apex:outputPanel>
+	 	
+	 	<apex:outPutPanel rendered="{!isProcessed}">
+	 		<div align="center">
+		 		<apex:form id="mainPopupProcessed">
+			 		<table>
+			 			<tr>
+			 			    <td align="center">Your request was processed successfully.</td>
+			 			</tr>
+			 			<tr>
+			 				<td align="center"><input type="button" value="Close" onclick="closePopupWindow();" /></td>
+			 			</tr>
+			 		</table>
+		 		</apex:form>
+	 		</div>
+	 	</apex:outPutPanel>
+ 	</apex:outputPanel>
+
+	<apex:outputPanel rendered="{!(!isUserAllowed)}">
+	 		<div align="center">
+		 		<table>
+		 			<tr>
+		 			    <td align="center" class="error" style="font-size:12px;">{!errorMsg}</td>
+		 			</tr>
+		 			<tr>
+		 				<td align="center"><input type="button" value="Close" onclick="closePopupWindow();" /></td>
+		 			</tr>
+		 		</table>
+	 		</div>
+	</apex:outputPanel>
+ 	
+ 	<script type="text/javascript">        
+        // closes the popup window
+        function closePopupWindow() {
+        	window.close();
+        }
+        
+        // Validate input data
+        function validate() {
+			var amountComponent = document.getElementById(amountComponentId);
+			var reasonComponent = document.getElementById(reasonComponentId);
+			
+        	amountComponent.style.border = '';
+        	reasonComponent.style.border = '';
+        	
+        	if (isNaN(parseFloat(amountComponent.value))) {
+        		alert('Please enter a valid Amount number.');
+        		amountComponent.value = '';
+        		amountComponent.style.border = '2px solid #ff0000';
+        		amountComponent.focus();
+        		return false;
+        	} else if (parseFloat(amountComponent.value) <=0) {
+        		alert('Amount must be greater than zero.');
+        		amountComponent.value = '';
+        		amountComponent.style.border = '2px solid #ff0000';
+        		amountComponent.focus();
+        		return false;        	
+        	} else if (reasonComponent.value == null || reasonComponent.value == '') {
+        		alert('Please enter a reason.');
+        		reasonComponent.value = '';
+        		reasonComponent.style.border = '2px solid #ff0000';
+        		reasonComponent.focus();
+        		return false;
+        	} else {
+        		save();
+        	}        	
+        }
+   	</script>
+</apex:page>

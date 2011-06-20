@@ -1,0 +1,6 @@
+A Budget Line was submitted for Approval
+
+Link: {!Budget_Line__c.Link}
+Budget Line Name: {!Budget_Line__c.Name}
+Program Line Name: {!Budget_Line__c.Program_Budget__c}
+Amount: {!Budget_Line__c.Reject_Reason__c}

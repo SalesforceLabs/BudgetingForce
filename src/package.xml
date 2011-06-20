@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>BudgetingForce</fullName>
+    <description>Budgeting Force application</description>
+    <types>
+        <members>BudgetChartTests</members>
+        <members>BudgetCustomSettingUtility</members>
+        <members>BudgetException</members>
+        <members>BudgetLine</members>
+        <members>BudgetLineChartController</members>
+        <members>BudgetManagerController</members>
+        <members>BudgetManagerControllerUnitTest</members>
+        <members>BudgetNode</members>
+        <members>BudgetOwnerChartController</members>
+        <members>BudgetPeriodUtility</members>
+        <members>BudgetReclaimUtility</members>
+        <members>BudgetRecurringUtility</members>
+        <members>BudgetUtil</members>
+        <members>Budgets</members>
+        <members>ProgramBudget</members>
+        <members>ProgramBudgetChartController</members>
+        <members>PurchaseRequest</members>
+        <members>ReclaimBudgetController</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>BudgetLineChart</members>
+        <members>BudgetLinePRDistributionChart</members>
+        <members>BudgetManager</members>
+        <members>BudgetOwnerChart</members>
+        <members>BudgetOwnerProgramDistributionChart</members>
+        <members>DepartmentPeriodTab</members>
+        <members>ProgramBudgetChart</members>
+        <members>ReclaimBudget</members>
+        <name>ApexPage</name>
+    </types>
+    <version>20.0</version>
+</Package>

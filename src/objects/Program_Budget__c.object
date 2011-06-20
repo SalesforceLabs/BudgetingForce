@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Level 2 of the budgeting and planning hierarchy</description>
+    <enableActivities>true</enableActivities>
+    <enableEnhancedLookup>true</enableEnhancedLookup>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableReports>true</enableReports>
+    <fields>
+        <fullName>Budget_Area__c</fullName>
+        <externalId>false</externalId>
+        <label>Budget Area</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Generica Area 1 (Update)</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Generica Area 2 (Update)</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Generica Area 3 (Update)</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Budget_Owner_Amount_Remaining__c</fullName>
+        <externalId>false</externalId>
+        <formula>Budget_Owner__r.Unallocated_Program_Budget_Amount__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Budget Owner Amount Remaining</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Budget_Owner_Amount__c</fullName>
+        <externalId>false</externalId>
+        <formula>Budget_Owner__r.Budget_Amount__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Budget Owner Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Budget_Owner__c</fullName>
+        <externalId>false</externalId>
+        <label>Parent Budget</label>
+        <referenceTo>Budgets__c</referenceTo>
+        <relationshipLabel>Program Budgets (Level 2)</relationshipLabel>
+        <relationshipName>Program_Budgets</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <trackHistory>true</trackHistory>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Contingency_Amounts__c</fullName>
+        <externalId>false</externalId>
+        <label>Contingency Amounts</label>
+        <summarizedField>Budget_Line__c.Budget_Line_Amount__c</summarizedField>
+        <summaryFilterItems>
+            <field>Budget_Line__c.Budget_Type__c</field>
+            <operation>equals</operation>
+            <value>Contingency</value>
+        </summaryFilterItems>
+        <summaryFilterItems>
+            <field>Budget_Line__c.Budget_Line_Amount__c</field>
+            <operation>lessOrEqual</operation>
+            <value>0</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Budget_Line__c.Program_Budget__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Contractor_Budget_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Contractor Budget Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <externalId>false</externalId>
+        <label>Description</label>
+        <length>20</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Number_of_Contractors__c</fullName>
+        <externalId>false</externalId>
+        <label>Number of Contractors</label>
+        <summaryFilterItems>
+            <field>Budget_Line__c.RecordTypeId</field>
+            <operation>equals</operation>
+            <value>Contractor Spend</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Budget_Line__c.Program_Budget__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Program_Budget_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Program Budget Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Program_Budget_External__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <externalId>true</externalId>
+        <label>Program Budget External</label>
+        <length>80</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Program_Owner__c</fullName>
+        <externalId>false</externalId>
+        <label>Program Owner</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Program_Budgets</relationshipName>
+        <trackHistory>true</trackHistory>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Program_Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Program Type</label>
+        <picklist>
+            <controllingField>Budget_Area__c</controllingField>
+            <picklistValues>
+                <fullName>Advertising</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Assets</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Books/Brochures</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Branding/Awareness</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Contingency</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Email</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Events</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Field marketing</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Launches</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Operations</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Product marketing</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Public Relations</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Regional Events</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Strategic Projects</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Systems Infrastructure</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Video</fullName>
+                <controllingFieldValues>Generica Area 1 (Update)</controllingFieldValues>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>true</trackHistory>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Proposed_Budget__c</fullName>
+        <externalId>false</externalId>
+        <label>Proposed Budget</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Region__c</fullName>
+        <externalId>false</externalId>
+        <label>Region DO NOT USE</label>
+        <picklist>
+            <picklistValues>
+                <fullName>US/Canada</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>EMEA</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>APAC</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Japan</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>L. America</fullName>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <type>Picklist</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_of_Budget_Lines__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup of Budget Lines</label>
+        <summarizedField>Budget_Line__c.Budget_Line_Amount__c</summarizedField>
+        <summaryFilterItems>
+            <field>Budget_Line__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Approved</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Budget_Line__c.Program_Budget__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_of_Contractor_Budget_Lines__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup of Contractor Budget Lines</label>
+        <summarizedField>Budget_Line__c.Contractor_Budget_Amount__c</summarizedField>
+        <summaryForeignKey>Budget_Line__c.Program_Budget__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_of_Purchase_Request_Amount__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup of Purchase Request Amount</label>
+        <summarizedField>Budget_Line__c.Rollup_of_Purchase_Request_Amount__c</summarizedField>
+        <summaryForeignKey>Budget_Line__c.Program_Budget__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_of_Unapproved_Budget_Lines__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup of Unapproved Budget Lines</label>
+        <summarizedField>Budget_Line__c.Budget_Line_Amount__c</summarizedField>
+        <summaryFilterItems>
+            <field>Budget_Line__c.Status__c</field>
+            <operation>notEqual</operation>
+            <value>Approved</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Budget_Line__c.Program_Budget__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Rollup_of_Uncommitted_Approved_Budget__c</fullName>
+        <externalId>false</externalId>
+        <label>Rollup of Uncommitted Approved Budget</label>
+        <summarizedField>Budget_Line__c.Uncommitted_Approved_Budget__c</summarizedField>
+        <summaryForeignKey>Budget_Line__c.Program_Budget__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Short_Name__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>If filled in, this short name will be added to the end of the Program Budget name</inlineHelpText>
+        <label>Short Name</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Unallocated_Budget_Line_Amount__c</fullName>
+        <externalId>false</externalId>
+        <formula>Program_Budget_Amount__c - ( Rollup_of_Budget_Lines__c +  Rollup_of_Unapproved_Budget_Lines__c )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Unallocated Budget Line Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Uncommitted_Approved_Budget_Remaining__c</fullName>
+        <externalId>false</externalId>
+        <formula>Program_Budget_Amount__c -   Rollup_of_Purchase_Request_Amount__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Uncommitted Approved Budget Remaining</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <type>Currency</type>
+    </fields>
+    <label>Program Budget</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>RECORDTYPE</columns>
+        <columns>Program_Type__c</columns>
+        <columns>Budget_Owner__c</columns>
+        <columns>Program_Budget_Amount__c</columns>
+        <columns>Proposed_Budget__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Program Budget Name</label>
+        <trackHistory>true</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Program Budgets</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Contractor_Spend</fullName>
+        <active>false</active>
+        <label>Contractor Spend</label>
+        <picklistValues>
+            <picklist>Budget_Area__c</picklist>
+            <values>
+                <fullName>Generica Area 1 %28Update%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Program_Type__c</picklist>
+            <values>
+                <fullName>Advertising</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Books%2FBrochures</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Branding%2FAwareness</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Email</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Events</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Field marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Launches</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Operations</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Public Relations</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Regional Events</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Systems Infrastructure</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Video</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Region__c</picklist>
+            <values>
+                <fullName>APAC</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>EMEA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Japan</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>L%2E America</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>US%2FCanada</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Program_Spend</fullName>
+        <active>true</active>
+        <label>Program Spend</label>
+        <picklistValues>
+            <picklist>Budget_Area__c</picklist>
+            <values>
+                <fullName>Generica Area 1 %28Update%29</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Program_Type__c</picklist>
+            <values>
+                <fullName>Advertising</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Assets</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Books%2FBrochures</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Branding%2FAwareness</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Contingency</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Email</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Events</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Field marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Launches</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Operations</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Product marketing</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Public Relations</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Regional Events</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategic Projects</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Systems Infrastructure</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Video</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Region__c</picklist>
+            <values>
+                <fullName>APAC</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>EMEA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Japan</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>L%2E America</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>US%2FCanada</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts>
+        <customTabListAdditionalFields>Program_Type__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Program_Budget_Amount__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Rollup_of_Budget_Lines__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Rollup_of_Unapproved_Budget_Lines__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Unallocated_Budget_Line_Amount__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Number_of_Contractors__c</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Program_Type__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Program_Budget_Amount__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Rollup_of_Budget_Lines__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Unallocated_Budget_Line_Amount__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Rollup_of_Unapproved_Budget_Lines__c</lookupDialogsAdditionalFields>
+        <lookupFilterFields>NAME</lookupFilterFields>
+        <lookupFilterFields>Budget_Owner__c</lookupFilterFields>
+        <lookupFilterFields>Program_Type__c</lookupFilterFields>
+        <lookupPhoneDialogsAdditionalFields>Program_Budget_Amount__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Unallocated_Budget_Line_Amount__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Rollup_of_Budget_Lines__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Rollup_of_Unapproved_Budget_Lines__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>Program_Type__c</searchFilterFields>
+        <searchFilterFields>Program_Budget_Amount__c</searchFilterFields>
+        <searchFilterFields>Rollup_of_Budget_Lines__c</searchFilterFields>
+        <searchFilterFields>Unallocated_Budget_Line_Amount__c</searchFilterFields>
+        <searchFilterFields>Rollup_of_Unapproved_Budget_Lines__c</searchFilterFields>
+        <searchResultsAdditionalFields>Program_Type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Program_Budget_Amount__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Rollup_of_Budget_Lines__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Unallocated_Budget_Line_Amount__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Rollup_of_Unapproved_Budget_Lines__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Program_budget_cannot_be_less_than_bls</fullName>
+        <active>true</active>
+        <errorConditionFormula>Program_Budget_Amount__c &lt;  (Rollup_of_Unapproved_Budget_Lines__c +  Rollup_of_Budget_Lines__c )</errorConditionFormula>
+        <errorDisplayField>Program_Budget_Amount__c</errorDisplayField>
+        <errorMessage>The program budget cannot be less than the sum of the budget line amounts.  First, reduce a budget line then reduce the program budget</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Program_budget_cannot_exceed_Level1</fullName>
+        <active>true</active>
+        <errorConditionFormula>OR((Budget_Owner__r.Rollup_of_Program_Budget_Amount__c  - PRIORVALUE( Program_Budget_Amount__c ) +  Program_Budget_Amount__c &gt; Budget_Owner_Amount__c),AND(ISNEW(),Budget_Owner__r.Rollup_of_Program_Budget_Amount__c +Program_Budget_Amount__c &gt;Budget_Owner_Amount__c))</errorConditionFormula>
+        <errorDisplayField>Program_Budget_Amount__c</errorDisplayField>
+        <errorMessage>The Total program budget exceeds the Level1 Budget.  You cannot make this change to the Program.  Please reduce another Program before increasing this program.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>RT_must_match_parent</fullName>
+        <active>true</active>
+        <description>OR(AND(CONTAINS( Budget_Owner__c , &quot;Contractor&quot;), CONTAINS( $RecordType.Name  , &quot;Program&quot;)),AND(CONTAINS( Budget_Owner__c , &quot;Program&quot;), CONTAINS( $RecordType.Name  , &quot;Contractor&quot;)))</description>
+        <errorConditionFormula>AND(CONTAINS( Budget_Owner__c , &quot;Contractor&quot;), $RecordType.Name  = &quot;Program Spend&quot;)</errorConditionFormula>
+        <errorMessage>Program Record Type must match the Budget Record Type</errorMessage>
+    </validationRules>
+    <webLinks>
+        <fullName>Manage_Budgets</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>url</linkType>
+        <masterLabel>Manage Budgets</masterLabel>
+        <openType>replace</openType>
+        <protected>false</protected>
+        <url>{!$Site.Domain}/apex/budgetManager?bid={!Program_Budget__c.Id}&amp;level=programBudget</url>
+    </webLinks>
+    <webLinks>
+        <fullName>Reclaim_Budget</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Reclaim Budget</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <url>var ss = document.createElement(&apos;script&apos;);
+var scr = &apos;var detailsWindowTimer;var detailsWindow;function WatchDetailsWindowForClose(){if (!detailsWindow || detailsWindow.closed){window.location.reload();clearTimeout(detailsWindowTimer);}else{detailsWindowTimer=setTimeout(&quot;WatchDetailsWindowForClose()&quot;,2000);}}&apos;;
+ss.type = &apos;text/javascript&apos;;
+if(/msie/i.test(navigator.userAgent) &amp;&amp; !/opera/i.test(navigator.userAgent)){	
+	ss.text = scr;
+}
+else{
+	var tt = document.createTextNode(scr);
+	ss.appendChild(tt);
+}
+var hh = document.getElementsByTagName(&apos;head&apos;)[0];
+hh.appendChild(ss);
+
+function OpenNewWindow(mypage,w,h,myname){
+    var winl = (window.screen.width-w)/2;
+    var wint = (window.screen.height-h)/2;
+    settings=&apos;height=&apos;+h+&apos;,width=&apos;+w+&apos;,top=&apos;+wint+&apos;,left=&apos;+winl+&apos;,directories=0,location=0,toolbar=0,status=1,menubar=0,scrollbars=1,resizable=1&apos;;
+
+    detailsWindow=window.open(mypage,myname,settings);
+    if(parseInt(navigator.appVersion) &gt;= 4){detailsWindow.window.focus();}
+    detailsWindowTimer = setTimeout(&quot;WatchDetailsWindowForClose()&quot;,2000);
+}
+
+OpenNewWindow(&apos;{!$Site.Domain}/apex/ReclaimBudget?id={!Program_Budget__c.Id}&amp;level=programBudget&amp;remaining={!Program_Budget__c.Unallocated_Budget_Line_Amount__c}&apos;, &apos;400&apos;, &apos;250&apos;, &apos;Reclaim&apos;);</url>
+    </webLinks>
+</CustomObject>

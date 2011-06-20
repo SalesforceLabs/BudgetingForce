@@ -1,0 +1,890 @@
+<!-- 
+Copyright (c) 2011, salesforce.com, Inc.
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, 
+are permitted provided that the following conditions are met:
+
+    * Redistributions of source code must retain the above copyright notice, 
+    this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright notice, 
+    this list of conditions and the following disclaimer in the documentation 
+    and/or other materials provided with the distribution.
+    * Neither the name of the salesforce.com, Inc. nor the names of its contributors 
+    may be used to endorse or promote products derived from this software 
+    without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
+IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, 
+INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, 
+BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, 
+DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF 
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE 
+OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED 
+OF THE POSSIBILITY OF SUCH DAMAGE.
+-->
+
+<apex:page controller="BudgetManagerController" showHeader="true" sidebar="false">
+
+<title>Budget Manager</title>
+
+<link src="{!URLFOR($Resource.BudgetManager, 'js/jquery-ui.min.js')}"/>
+<link href="{!URLFOR($Resource.BudgetManager, 'css/smoothness/jquery-ui-1.8.custom.css')}" rel="stylesheet" type="text/css"/>
+<link href="{!URLFOR($Resource.BudgetManager, 'css/budgetManager.css')}" rel="stylesheet" type="text/css"/>
+     
+    <apex:outputPanel rendered="{!periodsList.size = 0}" >
+    	
+    	<apex:form >
+    	    <apex:actionFunction name="install" action="{!install}" />
+		
+    		<apex:outputPanel layout="none" id="scriptPanel" >
+    			<script>
+    				var installFailed = {!installFailed};
+    				
+    			</script>    		
+    		</apex:outputPanel>
+    		
+    		<div>Please wait. Creating periods...</div>
+    		<div id="failedMsg" style="display:none">
+		    	Error: Could not create periods!<br/><br/>
+		    	The following manual step is necessary:
+		    	<ul>
+		    	  <li>Define values for the ReclaimBudgetCS__c custom setting.</li>
+		    	    <ul>
+		    	      <li>Go to Setup -> Develop -> Custom Settings -> ReclaimBudgetCS -> Click on Manage button.</li> 
+					  <li>In the next window click on the New button that appears on top of the page.</li> 
+					  <li>After that, please define the required values for the custom setting. Once you defined
+		    	      all the values, click on Save.</li>
+		    	    </ul>    
+		    	</ul>    			
+    		</div>
+    		<div id="redirectMsg" style="display:none">Redirecting...</div>
+    		
+    		<script>
+    			window.onload = function(){
+				    if(installFailed == 0){
+				        install();
+				    } else{
+				        redirect();
+				    }
+				}
+    			function redirect(){    					
+   					if(installFailed == 1){
+   						document.getElementById('redirectMsg').style.display = '';
+   						window.location = window.location;
+   					}
+   					else if(installFailed == 2){
+   						document.getElementById('failedMsg').style.display = '';
+   					}
+   				}
+    		</script>
+    	</apex:form>
+    </apex:outputPanel>
+    <apex:form id="mainPopup" rendered="{!periodsList.size > 0}">
+    
+    		<span class="error"><apex:outputText id="errorMessage" value="{!errorMsg}" escape="false" /></span>
+    
+   			<div>
+   				<table class="filtersTable">
+   					<tr>
+   					<td>
+   						<apex:selectList value="{!currentPeriod}" multiSelect="false" size="1">
+			                <apex:selectOptions value="{!periodsList}"/>
+			            </apex:selectList>
+   					</td>
+   					<td>
+	   					<apex:selectList value="{!currentBudgetArea}" multiSelect="true" size="4">
+			                <apex:selectOptions value="{!budgetAreaList}"/>
+			            </apex:selectList>
+   					</td>
+   					<td>
+   						<apex:commandButton value="Filter" action="{!filterTree}" rerender="errorMessage,switch,treeContainer" rendered="{!wasManageBudgetsClicked == false}" onComplete="rerenderComplete();"/>
+   					</td>
+   					<td>
+   						<div><apex:outputText escape="false" value="{!note1}" /></div>
+   						<div><apex:outputText escape="false" value="{!note2}" /></div>
+   					</td>
+   					</tr>
+   				</table>
+	        </div>
+	        <div style="margin-right:17px; margin-top:20px; max-width:1230px;">
+		        <table style="{!IF(NOT(ISNULL(tree)), '', 'display:none;')}" id="budgetsTableHeader" style="width:100%; font-size:0.8em;">
+	                <thead>
+	                    <tr>
+	                        <th class="actionCol">Action</th>
+	                        <th class="typeCol">Type</th>
+	                        <th class="nameCol">Name</th>
+	                        <th class="numberCol">Budget Owner Amount (USD)</th>
+	                        <th class="numberCol">Program Budget Amount (USD)</th>
+	                        <th class="numberCol">Budget Line Amount (USD)</th>
+	                        <th class="numberCol">Remaining Budget (USD)</th>
+	                        <th class="numberCol">Purchase request amount</th>
+	                        <th class="numberCol">Uncommitted amount</th>
+	                    </tr>
+	                </thead>
+	            </table>
+            </div>
+            <apex:outputPanel layout="block" style="overflow-y:scroll; overflow-x: hidden; height:400px; max-width:1247px; font-size:10pt;" id="treeContainer">
+	            <script>
+                    var treeContainerId = '#{!$Component.treeContainer}'.replace(/:/g,'\\:'); 
+                </script>
+                <div id="DBValues" style="display:none"><apex:repeat value="{!tree.children}" var="nodeLevel1">{!nodeLevel1.savedApproved}|<apex:repeat value="{!nodeLevel1.children}" var="nodeLevel2">{!nodeLevel2.savedApproved}|</apex:repeat></apex:repeat></div>
+                <apex:outputpanel rendered="{!ISNULL(tree)}">
+                   No Payments for this filters
+                </apex:outputpanel>    
+                
+                <div style="*margin-right:17px">
+                
+	                <table style="{!IF(NOT(ISNULL(tree)), '', 'display:none;')}" id="budgetsTable" style="width:100%; font-size:0.8em;">
+		                <tbody>
+		                    <tr class="even">
+		                        <td class="actionCol">
+		                        	<div class="actionsContainer">
+		                        		<apex:outputPanel layout="block" onclick="addNode('',1);" styleClass="addNodeBtn" rendered="{!!readonly && wasManageBudgetsClicked == false}"></apex:outputPanel>
+		                        	</div>
+		                        </td>
+		                        <td class="typeCol">&nbsp;</td>
+		                        <td class="nameCol">Total</td>
+		                        <td class="numberCol rightAligned">{!tree.approvedTotalS}</td>
+		                        <td class="numberCol rightAligned">&nbsp;</td>
+		                        <td class="numberCol rightAligned">&nbsp;</td>
+		                        <td class="numberCol rightAligned">&nbsp;</td>
+		                        <td class="numberCol rightAligned">&nbsp;</td>
+		                        <td class="numberCol rightAligned">&nbsp;</td>
+		                    </tr>
+		                    
+		                    <apex:repeat value="{!tree.children}" var="nodeLevel1">	                    
+		                    
+		                        <tr id="collapse{!nodeLevel1.Id}" class="{!IF(MOD(nodeLevel1.Id,2) != 0,'odd','even')}{!IF(nodeLevel1.isNew,' newNode','')}">
+		                            <td>
+		                            	<div class="actionsContainer">
+			                            	<!-- <apex:outputPanel layout="block" onclick="addNode({!nodeLevel1.Id},2);" styleClass="addNodeBtn" rendered="{!!readonly}"></apex:outputPanel>-->
+			                            	<a href="/{!nodeLevel1.objId}" target="_blank" class="viewObjBtn{!IF(nodeLevel1.isNew,' invisible','')}"></a>
+		                            	</div>
+		                            </td>
+		                            <td>Budget Owner</td>
+		                            <td>
+		                                <div class="{!IF(nodeLevel1.children.size == 0, '', IF(nodeLevel1.collapsed,'collapseArrowRight','collapseArrowDown'))} indent0" onclick="toggleCollapseTree(this);">
+		                                    {!nodeLevel1.name}
+		                                </div>
+		                            </td>
+		                            <td class="rightAligned">
+		                           	    <apex:outputText value="{!nodeLevel1.approvedS}" rendered="{!!((isUserAllowed || $ObjectType.Budgets__c.fields.Budget_Amount__c.updateable) && !readonly && nodeLevel1.approved >= 0)}" />
+		                            	<apex:inputText value="{!nodeLevel1.approvedS}" maxlength="15" onblur="recalculateTable(this, '{!nodeLevel1.approvedS}');toggleValueChange(this);" rendered="{!(isUserAllowed || $ObjectType.Budgets__c.fields.Budget_Amount__c.updateable) && !readonly && nodeLevel1.approved >= 0}" styleClass="{!IF(nodeLevel1.isNew,' newNode','')}"/>
+		                            </td>
+		                            <td class="rightAligned"><apex:outputText value="{!nodeLevel1.approvedTotalS}" /></td>
+		                            <td class="rightAligned">&nbsp;</td>
+		                            <td class="rightAligned"><apex:outputText value="{!nodeLevel1.remainingS}" /></td>
+		                            <td class="rightAligned">&nbsp;</td>
+		                        	<td class="rightAligned">&nbsp;</td>
+		                            
+		                            
+		                        </tr>
+		                    
+		                        <apex:repeat value="{!nodeLevel1.children}" var="nodeLevel2">                   
+		                            
+		                            <tr style="{!IF(nodeLevel1.collapsed,'display:none;','')}" id="collapse{!nodeLevel2.Id}" class="collapse{!nodeLevel1.Id}{!IF(MOD(nodeLevel2.Id,2) != 0,' odd',' even')}{!IF(nodeLevel2.savedApproved != nodeLevel2.approved,' changedRow','')}{!IF(nodeLevel2.isNew,' newNode','')}">
+		                                <td>
+		                                	<div class="actionsContainer">
+		                                		<!-- <apex:outputPanel layout="block" onclick="addNode({!nodeLevel2.Id},3);" styleClass="addNodeBtn" rendered="{!!readonly}"></apex:outputPanel>-->
+				                            	<a href="/{!nodeLevel2.objId}" target="_blank" class="viewObjBtn{!IF(nodeLevel2.isNew,' invisible','')}"></a>
+			                            	</div>
+		                                </td>
+		                                <td>Program Budget</td>
+		                                <td>
+		                                    <div class="{!IF(nodeLevel2.children.size == 0, '', IF(nodeLevel2.collapsed,'collapseArrowRight','collapseArrowDown'))} indent1" onclick="toggleCollapseTree(this);">
+		                                        {!nodeLevel2.name}
+		                                    </div>
+		                                </td>
+		                                <td>&nbsp;</td>
+		                                <td class="rightAligned">
+			                            	<apex:outputText value="{!nodeLevel2.approvedS}" rendered="{!!((isUserAllowed || $ObjectType.Program_Budget__c.fields.Program_Budget_Amount__c.updateable) && !readonly && nodeLevel2.approved >= 0)}" />
+		                            		<apex:inputText value="{!nodeLevel2.approvedS}" maxlength="15" onblur="recalculateTable(this, '{!nodeLevel2.approvedS}');toggleValueChange(this);" rendered="{!(isUserAllowed || $ObjectType.Program_Budget__c.fields.Program_Budget_Amount__c.updateable) && !readonly && nodeLevel2.approved >= 0}" styleClass="{!IF(nodeLevel2.isNew,' newNode','')}"/>
+			                            </td>
+			                            <td class="rightAligned"><apex:outputText value="{!nodeLevel2.approvedTotalS}" /></td>
+			                            <td class="rightAligned"><apex:outputText value="{!nodeLevel2.remainingS}" /></td>
+			                            <td class="rightAligned">&nbsp;</td>
+		                        		<td class="rightAligned">&nbsp;</td>
+		                            </tr>
+		                            
+		                            
+		                            
+		                            <apex:repeat value="{!nodeLevel2.children}" var="nodeLevel3">	                            
+		                            
+		                                <tr style="{!IF(nodeLevel2.collapsed,'display:none;','')}" id="collapse{!nodeLevel3.Id}" class="collapse{!nodeLevel1.Id} collapse{!nodeLevel2.Id}{!IF(MOD(nodeLevel3.Id,2) != 0,' odd',' even')}{!IF(nodeLevel3.savedApproved != nodeLevel3.approved,' changedRow','')}{!IF(nodeLevel3.isNew,' newNode','')}">
+		                                    <td>
+		                                    	<div class="actionsContainer">
+					                            	<a href="/{!nodeLevel3.objId}" target="_blank" class="viewObjBtn{!IF(nodeLevel3.isNew,' invisible','')}" style="{!IF(!readonly,'margin-left:23px;','')}"></a>
+				                            	</div>
+		                                    </td>
+		                                    <td>Budget Line</td>
+		                                    <td>
+		                                        <div class="{!IF(nodeLevel3.children.size == 0, '', IF(nodeLevel3.collapsed,'collapseArrowRight','collapseArrowDown'))} indent2" onclick="toggleCollapseTree(this);">
+		                                            {!nodeLevel3.name}
+		                                        </div>
+		                                    </td>
+		                                    <td class="rightAligned">&nbsp;</td>
+				                            <td class="rightAligned">&nbsp;</td>
+				                            <td class="rightAligned {!IF(nodeLevel3.savedApproved < 0,'negativeFromDB','')}">
+				                            	<apex:outputText value="{!nodeLevel3.approvedS}" />
+				                            </td>
+				                            <td class="rightAligned">&nbsp;</td>	
+				                            <td class="rightAligned {!IF(nodeLevel3.requested < 0,'negativeFromDB','')}">USD {!nodeLevel3.requestedS}</td>
+		                        			<td class="rightAligned {!IF(nodeLevel3.BLApprovedUncommitted < 0,'negativeFromDB','')}">USD {!nodeLevel3.BLApprovedUncommittedS}</td>                                     
+		                                </tr>
+		                                
+		                                <apex:repeat value="{!nodeLevel3.children}" var="nodeLevel4">
+		                                	
+		                                	<tr style="{!IF(nodeLevel3.collapsed,'display:none;','')}" id="collapse{!nodeLevel4.Id}" class="collapse{!nodeLevel1.Id} collapse{!nodeLevel2.Id} collapse{!nodeLevel3.Id}{!IF(MOD(nodeLevel4.Id,2) != 0,' odd',' even')}{!IF(nodeLevel4.isNew,' newNode','')}">
+			                                    <td>
+			                                    	<div class="actionsContainer">
+						                            	<a href="/{!nodeLevel4.objId}" target="_blank" class="viewObjBtn" style="{!IF(!readonly,'margin-left:23px;','')}"></a>
+					                            	</div>
+			                                    </td>
+			                                    <td>Purchase Request</td>
+			                                    <td>
+			                                        <div class="indent3">
+			                                            {!nodeLevel4.name}
+			                                        </div>
+			                                    </td>
+			                                    <td class="rightAligned">&nbsp;</td>
+					                            <td class="rightAligned">&nbsp;</td>
+					                            <td class="rightAligned">&nbsp;</td>
+					                            <td class="rightAligned">&nbsp;</td>	
+					                            <td class="rightAligned">{!nodeLevel4.requestedS}</td>
+			                        			<td class="rightAligned">&nbsp;</td>                                     
+			                                </tr>
+		                                	
+		                                </apex:repeat>
+		                                
+		                            </apex:repeat>
+		                        </apex:repeat>                                          
+		                    </apex:repeat>                                          
+		                </tbody>
+		            </table>   
+		         </div>
+            </apex:outputPanel>
+            
+			<apex:outputPanel id="saveButtonPanel" layout="block" rendered="{!!readOnly}">
+				<apex:commandButton id="saveButton" value="Save" style="margin:20px;" onclick="return validateAndSave();"/>
+				<input type="button" id="cancelButton" value="Cancel" class="btn" style="margin:20px;"  onclick="window.location.reload(true);"/>
+			</apex:outputPanel>	
+            	<apex:actionFunction action="{!saveTree}" name="saveTreeAF" rerender="errorMessage,switch,treeContainer" onComplete="rerenderComplete();"/>
+            	<apex:inputHidden id="parentNodeId" value="{!parentNode}" />
+            	<apex:inputHidden id="level1BudgetPeriod" value="{!level1BudgetPeriod}" />
+            	<apex:inputHidden id="level1BudgetArea" value="{!level1BudgetArea}" />
+            	<apex:inputHidden id="level3BudgetShortName" value="{!level3BudgetShortName}" />
+            	<apex:inputHidden id="level3BudgetOwner" value="{!level3BudgetOwner}" />
+            	<apex:inputHidden id="level3BudgetPlanBudget" value="{!level3BudgetPlanBudget}" />
+            	<apex:inputHidden id="level4BudgetShortName" value="{!level4BudgetShortName}" />
+            	<!-- <apex:inputHidden id="level4BudgetAnnualBudget" value="{!level4BudgetAnnualBudget}" />-->
+            	<apex:inputHidden id="level4BudgetRegion" value="{!level4BudgetRegion}" /> 
+            	<apex:inputHidden id="level4BudgetDepartment" value="{!level4BudgetDepartment}" />
+            	<apex:inputHidden id="level4BudgetV2MomMethod" value="{!level4BudgetV2MomMethod}" />
+            	<apex:inputHidden id="level4BudgetCloud" value="{!level4BudgetCloud}" />
+            	<apex:inputHidden id="level4BudgetDescription" value="{!level4BudgetDescription}" />
+            	<apex:inputHidden id="level4BudgetLineAmount" value="{!level4BudgetLineAmount}" />
+            <script>
+            	var parentNodeId = '#{!$Component.parentNodeId}'.replace(/:/g,'\\:');
+            	var level1BudgetPeriodId = '#{!$Component.level1BudgetPeriod}'.replace(/:/g,'\\:');
+            	var level1BudgetAreaId = '#{!$Component.level1BudgetArea}'.replace(/:/g,'\\:');
+            	var level3BudgetShortNameId = '#{!$Component.level3BudgetShortName}'.replace(/:/g,'\\:');
+            	var level3BudgetOwnerId = '#{!$Component.level3BudgetOwner}'.replace(/:/g,'\\:');
+            	var level3BudgetPlanBudgetId = '#{!$Component.level3BudgetPlanBudget}'.replace(/:/g,'\\:');
+            	var level4BudgetShortNameId = '#{!$Component.level4BudgetShortName}'.replace(/:/g,'\\:');
+            	//var level4BudgetAnnualBudgetId = '#{!$Component.level4BudgetAnnualBudget}'.replace(/:/g,'\\:');
+            	var level4BudgetRegionId = '#{!$Component.level4BudgetRegion}'.replace(/:/g,'\\:');
+            	var level4BudgetDepartmentId = '#{!$Component.level4BudgetDepartment}'.replace(/:/g,'\\:');
+            	var level4BudgetV2MomMethodId = '#{!$Component.level4BudgetV2MomMethod}'.replace(/:/g,'\\:');
+            	var level4BudgetCloudId = '#{!$Component.level4BudgetCloud}'.replace(/:/g,'\\:');
+            	var level4BudgetDescriptionId = '#{!$Component.level4BudgetDescription}'.replace(/:/g,'\\:');
+            	var level4BudgetLineAmountId = '#{!$Component.level4BudgetLineAmount}'.replace(/:/g,'\\:');
+            </script>
+            
+            
+            <div id="Level1BudgetDialog">
+            	<table class="formTable">
+            		<tr>
+	            		<td>Period<span class="required">*</span>:</td>
+	            		<td>
+		            		<apex:selectList multiSelect="false" size="1" styleClass="periodSelect">
+				                <apex:selectOptions value="{!periodsList}"/>
+				            </apex:selectList>
+	            		</td>
+            		</tr>
+            		<tr>
+	            		<td>Budget Area<span class="required">*</span>:</td>
+	            		<td>
+	            			<apex:selectList multiSelect="false" size="1" styleClass="budgetAreaSelect">
+				                <apex:selectOptions value="{!budgetAreaList}"/>
+				            </apex:selectList>
+						</td>						
+            		</tr>
+            		<tr>
+            			<td colspan="2"><apex:CommandButton value="Add" onclick="addNodeBtnClick(1);" /></td>
+            		</tr>
+            	</table>
+            </div>
+            
+            <div id="Level2BudgetDialog" style="width:400px;">
+            	<table class="formTable">
+            		<tr>
+	            		<td>Short Name:</td>
+	            		<td><apex:inputText styleClass="node2ShortName" />&nbsp;<span id="pbShortNameError" class="error"></span></td>
+            		</tr>            	 
+            		<tr>
+	            		<td>Budget Area<span class="required">*</span>:</td>
+	            		<td>
+	            			<apex:selectList multiSelect="false" size="1" styleClass="budgetOwnerSelect">
+				                <apex:selectOptions value="{!pbBudgetOwnersList}"/>
+				            </apex:selectList>
+				            &nbsp;<span id="blBudgetAreaError" class="error"></span>
+				         <!-- <apex:inputField value="{!p.Budget_Owner1__c}" /> -->
+	            		</td>
+            		</tr>
+            		<tr>
+	            		<td>Program type<span class="required">*</span>:</td>
+	            		<td> 
+	            			<apex:selectList multiSelect="false" size="1" styleClass="planBudgetCodesSelect">
+				                <apex:selectOptions value="{!planBudgetCodesList}"/>
+				            </apex:selectList>
+				            &nbsp;<span id="blProgramTypeError" class="error"></span>				    
+	            		</td>
+            		</tr>
+            		<tr>
+            			<td colspan="2"><apex:CommandButton value="Add" onclick="addNodeBtnClick(2);" /></td>
+            		</tr>
+            	</table>
+            </div>
+            <div id="Level3BudgetDialog">
+            	<table id="level3BudgetDialogTable" class="formTable">
+            		<tr>
+	            		<td>Short Name:</td>
+	            		<td><apex:inputText styleClass="nodeShortName" />&nbsp;<span id="blShortNameError" class="error"></span></td>
+            		</tr>
+            		<tr>
+	            		<td>Region<span class="required">*</span>:</td>
+	            		<td>
+	            			<apex:selectList multiSelect="false" size="1" styleClass="regionSelect">
+				                <apex:selectOptions value="{!RegionsList}"/>
+				            </apex:selectList>
+				            &nbsp;<span id="blRegionError" class="error"></span>
+						</td>
+            		</tr>
+            		<tr>
+	            		<td>Department<span class="required">*</span>:</td>
+	            		<td>
+	            			<apex:selectList multiSelect="false" size="1" styleClass="departmentsSelect">
+				                <apex:selectOptions value="{!departmentsList}"/>
+				            </apex:selectList>
+				            &nbsp;<span id="blDepartmentError" class="error"></span>
+	            		</td>
+            		</tr>
+            		<tr>
+	            		<td>V2MOM Method<span class="required">*</span>:</td>
+	            		<td>
+	            			<apex:selectList multiSelect="false" size="1" styleClass="v2MomMethodsSelect">
+				                <apex:selectOptions value="{!v2MomMethodsList}"/>
+				            </apex:selectList>
+				            &nbsp;<span id="blv2MomError" class="error"></span>
+	            		</td>
+            		</tr>
+            		<tr>
+	            		<td>Cloud<span class="required">*</span>:</td>
+	            		<td>
+	            			<apex:selectList multiSelect="false" size="1" styleClass="cloudsSelect">
+				                <apex:selectOptions value="{!cloudsList}"/>
+				            </apex:selectList>
+				            &nbsp;<span id="blCloudError" class="error"></span>
+	            		</td>
+            		</tr>
+            		<tr>
+	            		<td valign="top">Description<span class="required">*</span>:</td>
+	            		<td>
+							<apex:inputTextarea styleClass="budgetLineDescription" cols="27" rows="3"/>&nbsp;<span id="blDescriptionError" class="error"></span></td>
+						</td>	      
+            		</tr>
+            		<tr>
+	            		<td>Budget Line Amount<span class="required">*</span>:</td>
+	            		<td>
+	            			<apex:inputText styleClass="budgetLineAmount" />&nbsp;<span id="blAmountError" class="error"></span></td>
+						</td>
+            		</tr>
+            		<tr>
+            			<td colspan="2"><apex:CommandButton value="Add" onclick="addNodeBtnClick(3);"  /></td>
+            		</tr>
+            	</table>
+            </div>
+            <apex:actionFunction rerender="errorMessage,switch,treeContainer" name="addNodeAF" action="{!addNode}"  onComplete="rerenderComplete();"/>
+
+    <script type="text/javascript" language="javascript">
+    	var allPositiveInitialValues;
+    	
+    	function initializeVariables() {
+    		allPositiveInitialValues = new Array();
+    		var initialValues = document.getElementById("DBValues").innerHTML.split("|");//[<apex:repeat value="{!tree.children}" var="nodeLevel1">{!nodeLevel1.savedApproved},<apex:repeat value="{!nodeLevel1.children}" var="nodeLevel2">{!nodeLevel2.savedApproved},</apex:repeat></apex:repeat>];
+			
+			// create a new array with positive values
+			for (i = 0; i < initialValues.length-1; i++) {
+				if (initialValues[i] >= 0) {
+			    	allPositiveInitialValues.push(initialValues[i]);
+			    }   
+			}
+    	}	
+    </script>
+    
+    <script type="text/javascript" language="javascript" src="{!URLFOR($Resource.BudgetManager, 'js/jquery.min.js')}"></script>
+    <script type="text/javascript" language="javascript" src="{!URLFOR($Resource.BudgetManager, 'js/jquery-ui.min.js')}"></script>
+
+    <script type="text/javascript" charset="utf-8">
+	$J = jQuery.noConflict();
+	 
+    $J(document).ready(function(){
+        // Initialize the initialValues and allPositiveInitialValues variables
+        initializeVariables();
+        
+        //Build overlay dialogs to create new nodes.
+        var titles = new Array('Add new Budget Owner','Add new Program Budget','Add new Budget Line');
+        for(var i = 0; i < titles.length; i++){
+        	$J( '#Level' + (i+1) + 'BudgetDialog' ).dialog( { autoOpen:false, modal:true, closeOnEscape:true, show:'slide', title:titles[i], width:520 } );
+        }
+        
+        //Colorize and format numbers in table
+        formatTable();
+        
+        //Install window resizing event to adapt the table to the viewport size
+        $J(window).bind("resize", resizeWindow);
+        resizeWindow();        
+    });
+    
+    function rerenderComplete(){    	
+    	initializeVariables();
+    	//Colorize and format numbers in table
+        formatTable();
+        
+        //Install window resizing event to adapt the table to the viewport size
+        $J(window).bind("resize", resizeWindow);
+        resizeWindow();
+    }
+    
+    //Adapt to the change in height of the viewport, so that there is no need to scroll for the save button.
+    function resizeWindow( e ) {
+		var newWindowHeight = $J(window).height();
+		$J(treeContainerId).css("height", newWindowHeight-340 );
+	}
+	
+	//Class TableHelper.
+    //Used to manipulate the values in the table cells
+    function TableHelper(tableId){
+    
+	    this.currentRow = 0; //The current row of the table.
+	    this.currentCol = 0; //The current column of the table.
+	    this.currentTableId = tableId; //The id of the table
+	    this.nbrDecimal = '.'; //The decimal separator char
+		this.nbrSeparator = ','; //The thousand separator char
+		this.rows = tableId == null ? null : $J('tr',$J('tbody',$J('#'+tableId)));
+		this.cell = null;
+	    
+	    //Move to the column col and return the amount on the cell or input as a js number.
+	    this.getAmount = function(col){
+	    	
+	    	if(col != null && !isNaN(parseInt(col))){
+	    		this.currentCol = col;
+	    	}
+	    	this.cell = $J($J(this.rows[this.currentRow]).children()[this.currentCol]);
+	    	var val = this.cell.children('input').length == 0 ? this.cell.html() : this.cell.children('input')[0].value;
+	    	//Remove currency if it has one
+	    	val = val.replace(/^([a-zA-Z]{3} )?([0-9\.,]*)/,"$2");
+	    	return parseFloat(this.unformatNumber(val));
+	    };
+	    
+	    //Move to the column col and set the amount on the cell or input in a human readable format.
+	    this.setAmount = function(amount,col,currency){
+	    
+	    	if(col != null && !isNaN(parseInt(col))){
+	    		this.currentCol = col;
+	    	}
+	    	this.cell = $J($J(this.rows[this.currentRow]).children()[this.currentCol]);
+	    	//Append currency if one was specified
+	    	var val = (currency == null ? '' : currency+' ') + this.formatNumber(this.unformatNumber(amount));
+	    	if(this.cell.children('input').length == 0){
+	    		this.cell.html(val);
+	    	}
+	    	else{
+	    		this.cell.children('input')[0].value = val;
+	    	}
+	    };
+	    
+	    //Formats the number in the cell no matter its current format.
+	    this.format = function(){
+	    	this.setAmount(this.getAmount());
+	    };
+	    
+	    //Formats the number in the cell no matter its current format.
+	    this.negativeFromDB = function(){
+	    	return $J($J(this.rows[this.currentRow]).children()[this.currentCol]).hasClass('negativeFromDB');
+	    };
+
+	    //Returns the val number in a js number format.
+		this.unformatNumber = function(val){
+			if(val == null){
+			  return Number.NaN;
+			}
+			val = String(val);
+			if(this.nbrSeparator==","){
+				val = val.replace(/,/g, '');
+			}
+			else{
+				val = val.replace(/\./g, '');
+			}
+			return isNaN(val.replace(/,/g,'.')) ? Number.NaN : val;
+		};
+		
+		//Return the val number in a human readable format.
+		this.formatNumber = function(val){
+			if(isNaN(val)){ return ''; }
+			if(typeof val == 'number'){
+				if(this.nbrDecimal == ','){
+					val = String(val).replace('\.',',');
+				}
+				else{
+					val = String(val);
+				}
+			}
+			else{
+				val = this.unformatNumber(val);
+			}
+			var dotPos = val.indexOf(this.nbrDecimal) != -1 ? val.indexOf(this.nbrDecimal) : val.length;
+			var newVal = '';
+			j = 0;
+			for(i = dotPos-1; i >= 0; i--){
+			  if(j < 3){
+			     newVal = val.charAt(i) + newVal;
+			  }
+			  else{
+			     newVal = val.charAt(i) + this.nbrSeparator + newVal;
+			     j++;
+			  }
+			  j = (j+1) % 4;
+			}
+			
+			var lastVal = newVal;
+			var doRound = true;
+			//Round decimal part to 2 digits
+			if(val.indexOf(this.nbrDecimal) != -1){
+				if(doRound){
+					var decimals = val.substring(dotPos+1); //23432
+					var num = Math.round(parseFloat('0.'+decimals)*100)/100; //0.23
+					var decimalPart = String(num).replace('.',this.nbrDecimal).substring(1); //.23
+					decimalPart += decimalPart.length == 2 ? '0' : '';
+					lastVal += decimalPart;
+				}
+				else{
+					lastVal += val.substring(dotPos);
+				}
+			}
+			else{
+				lastVal += this.nbrDecimal+'00';
+			}
+			return lastVal.replace('-'+this.nbrSeparator,'-');	
+		};
+    }
+    
+	      
+	function hasChangedRows(){
+		return $J('.changedRow').length > 0;
+	}
+	       
+	function toggleValueChange(obj){
+	
+		var th = new TableHelper(); 
+		var parent = $J($J(obj).parent().parent());
+		var inputs = $J('#budgetsTable input');
+		var j = 0;
+
+		for (var i=0; i < inputs.length; i++){			
+			
+			if(!$J(inputs[i]).hasClass('newNode')){
+				if(obj == inputs[i]){				
+					if (parseFloat(allPositiveInitialValues[j]) != parseFloat(th.unformatNumber(inputs[i].value))){
+						parent.addClass('changedRow');
+					}
+					else{
+						parent.removeClass('changedRow');
+					}
+				}
+				j++;
+			}
+		}
+	}
+
+	//Open the corresponding dialog box for creating a node for parent in the level
+    function addNode(parent,level){
+    	
+    	$J(parentNodeId)[0].value = parent;
+    	$J( '#Level' + level + 'BudgetDialog' ).dialog('open');
+    }
+    
+    //Copy the info in the dialog box to hidden fields and submit. 
+    //The jQuery library changes the structure/position of the popup div so the inputTexts are no longer found by visualforce.
+    function addNodeBtnClick(i){
+    	if(i == 1){
+    		$J(level1BudgetPeriodId).get(0).value = $J('.periodSelect').get(0).value;
+    		//$J(level1BudgetCMOId).get(0).value = $J('.cmoSelect').get(0).value;
+    		$J(level1BudgetAreaId).get(0).value = $J('.budgetAreaSelect').get(0).value;    		
+    	}
+    	else if(i == 2){
+
+    		$J(level3BudgetShortNameId).get(0).value = trim($J('.node2ShortName').get(0).value);
+    		if ($J('.budgetOwnerSelect').get(0).value != '') {
+    			$J(level3BudgetOwnerId).get(0).value = $J('.budgetOwnerSelect').get(0).value;
+    			$J('#blBudgetAreaError').html('');
+    		} else {
+    			$J('#blBudgetAreaError').html('Enter a Budget Area.');
+    			return false;
+    		}
+    		if ($J('.planBudgetCodesSelect').get(0).value != '') {
+				$J(level3BudgetPlanBudgetId).get(0).value = $J('.planBudgetCodesSelect').get(0).value;
+				$J('#blBudgetAreaError').html('');    		
+    		} else {
+    			$J('#blProgramTypeError').html('Enter a Program Type.');
+    			return false;
+    		}
+    		
+    	}
+    	else if(i == 3){
+    		var re = new RegExp('((-|\\+)?[0-9]+(\\.[0-9]+)?)+');
+
+    		$J(level4BudgetShortNameId).get(0).value = trim($J('.nodeShortName').get(0).value);
+    		
+    		if ($J('.regionSelect').get(0).value != '') {
+    			$J(level4BudgetRegionId).get(0).value = $J('.regionSelect').get(0).value;
+    			$J('#blRegionError').html('');
+    		} else {
+    			$J('#blRegionError').html('Enter a Region.');
+    			return false;
+    		}
+    		if ($J('.departmentsSelect').get(0).value != '') {
+    			$J(level4BudgetDepartmentId).get(0).value = $J('.departmentsSelect').get(0).value;
+    			$J('#blDepartmentError').html('');
+    		} else {
+    			$J('#blDepartmentError').html('Enter a Department.');
+    			return false;
+    		}
+    		if ($J('.v2MomMethodsSelect').get(0).value != '') {
+    			$J(level4BudgetV2MomMethodId).get(0).value = $J('.v2MomMethodsSelect').get(0).value;
+    			$J('#blv2MomError').html('');
+    		} else {
+    			$J('#blv2MomError').html('Enter a v2Mom.');
+    			return false;
+    		}
+    		if ($J('.cloudsSelect').get(0).value) {
+    			$J(level4BudgetCloudId).get(0).value = $J('.cloudsSelect').get(0).value;
+    			$J('#blCloudError').html('');
+    		} else {
+    			$J('#blCloudError').html('Enter a Cloud.');
+    			return false;
+    		}
+
+    		if (!isEmpty($J('.budgetLineDescription').get(0))) {
+    			$J(level4BudgetDescriptionId).get(0).value = $J('.budgetLineDescription').get(0).value;
+    			$J('#blDescriptionError').html('');
+    		} else {
+    			$J('#blDescriptionError').html('Enter a Description.');
+    			return false
+    		}
+    			
+    		if (!isEmpty($J('.budgetLineAmount').get(0))) {
+    			if (re.test($J('.budgetLineAmount').get(0).value)) {
+	    			if ($J('.budgetLineAmount').get(0).value >= 0) {
+	    				$J(level4BudgetLineAmountId).get(0).value = trim($J('.budgetLineAmount').get(0).value);
+	    				$J('#blAmountError').html('');
+	    			} else {
+		    			$J('#blAmountError').html('Amount can not be negative.');
+	    				return false;		
+	    			}
+    			} else {
+	    			$J('#blAmountError').html('Enter a valid Amount.');
+    				return false;		    			
+    			}
+    		} else {
+    			$J('#blAmountError').html('Enter an Amount.');
+    			return false;
+    		}
+
+    		//$J(level4BudgetAnnualBudgetId).get(0).value = $J('.annualBudgetCheckbox').is(':checked') ? 'true' : 'false';
+    	}
+    	else{
+    		return false;
+    	}
+    	addNodeAF();
+    	$J( '#Level' + i + 'BudgetDialog' ).dialog('close');
+    }
+    
+    // Validate input fields
+	function isEmpty(textFieldId) {
+	   var textField = trim(textFieldId.value);
+	   if ((textField.length==0) ||
+	   (textField == null)) {
+	      return true;
+	   }
+	   else { return false; }
+	}    
+    
+    //Collapse all the children nodes for the obj.
+    function toggleCollapseTree(obj){
+    
+    	var nameColumn = 2; //The column where the name and the collapse/expand buttons is
+        var className = '.'+$J($J(obj).parent()).parent().attr('id'); //Get
+        
+        var childList = $J(className);
+        if($J(obj).hasClass('collapseArrowDown')){
+            $J(obj).removeClass('collapseArrowDown').addClass('collapseArrowRight');
+            childList.hide();
+        }
+        else if($J(obj).hasClass('collapseArrowRight')){
+            $J(obj).removeClass('collapseArrowRight').addClass('collapseArrowDown');
+            $J(className).show();
+            for(var i=0; i < childList.length; i++){
+                var div = $J($J($J(childList[i]).children()[nameColumn]).children()[0]);
+                if(div.hasClass('collapseArrowRight')){
+                    div.removeClass('collapseArrowRight');
+                    div.addClass('collapseArrowDown');
+                }
+            }
+        }
+        formatTable();
+    }
+    
+    //Paint all the rows in an even/odd fashion and format the number in it. If the remaining amount is negative, the name will be in red.
+    function formatTable(){
+
+        var j=0;        
+        helper = new TableHelper('budgetsTable');
+        
+        for(var i=0; i < helper.rows.length; i++){
+            var curRow = $J(helper.rows[i]);
+            if(curRow.is(':visible')){
+                curRow.removeClass('odd').removeClass('even').addClass(j%2 == 0 ? 'odd' : 'even');
+                j++;
+            }
+            
+            helper.currentRow = i;
+                        
+            helper.currentCol = 3;
+            helper.format();
+            
+            helper.currentCol = 4;
+            helper.format();
+            
+            helper.currentCol = 5;
+            helper.format();
+            
+            helper.currentCol = 6;
+            helper.format();
+                 
+            if(!helper.negativeFromDB() && helper.getAmount() < 0){
+            	$J(curRow.children()[2]).addClass('negative');
+            	$J(curRow.children()[6]).addClass('negative');
+            }
+            else{
+            	$J(curRow.children()[2]).removeClass('negative');
+            	$J(curRow.children()[6]).removeClass('negative');
+            }
+            
+            helper.currentCol = 8;
+                        
+            if(!helper.negativeFromDB() && helper.getAmount() < 0){
+            	$J(curRow.children()[2]).addClass('negative');
+            	$J(curRow.children()[8]).addClass('negative');
+            }
+            else{
+            	$J(curRow.children()[2]).removeClass('negative');
+            	$J(curRow.children()[8]).removeClass('negative');
+            }
+        }
+        
+    }
+    
+	//Update all rollup and remaining values and format the table.
+    function recalculateTable(currentInput, prevValue){
+		
+        var tableName  = 'budgetsTable';
+        var helper = new TableHelper(tableName);
+		
+		// validate that the current input is a number
+		if (isNaN(helper.unformatNumber(currentInput.value))) {
+			alert(currentInput.value + ' is not a valid number.');
+			currentInput.value = prevValue;
+		}
+		else if(helper.unformatNumber(currentInput.value) < 0){
+			alert("Negative values are not allowed");
+			currentInput.value = prevValue;
+		}
+		
+		var maxDepth = 3;
+        var lastLevel = -1;
+        var approvedRollup = new Array(maxDepth);
+        for(var i = 0; i < maxDepth; i++){
+        	approvedRollup[i] = 0;
+        }
+        
+
+        for(helper.currentRow = (helper.rows.length-1); helper.currentRow > 0; helper.currentRow--){
+        	
+        	var level = helper.rows[helper.currentRow].className.split('collapse').length-1;
+        	
+        	//Accumulate the values
+       		var levelVal = helper.getAmount(level+3);
+       		approvedRollup[level] += isNaN(levelVal) ? 0.00 : levelVal ;
+       		
+       		//Update uncommitted amt if in a budget line
+       		if(level == 2){
+       			var reqAmt = helper.getAmount(level+5);
+       			if(isNaN(reqAmt)){ reqAmt = 0.0;}
+       			var uncommittedAmt = levelVal - reqAmt;
+       			helper.setAmount(uncommittedAmt,level+6,"USD");
+       		}
+
+        	if (level == 1 || (level <= lastLevel && level < 3)){
+        		
+        		//Assign to the rollup column the accumulated value
+        		helper.setAmount(approvedRollup[level+1],level+4);
+        	
+        		var approved = isNaN(helper.getAmount(level+3)) ? 0 : helper.getAmount(level+3);
+        		
+        		helper.setAmount(approved-approvedRollup[level+1],6);
+        		
+        		//Clear the sums of that level and below
+        		for(var i = level+1; i < maxDepth; i++){
+        			approvedRollup[i] = 0;
+        		}
+        		
+        	}        	
+        	lastLevel = level;
+        }
+        
+        //Update totals row
+   		helper.setAmount(approvedRollup[0],3);
+        
+     	formatTable();   
+    }
+    
+    //Validate the input values. Check there are no remaining budget below zero.
+    function validateAndSave(){
+    	if($J('.negative').length == 0){
+    		saveTreeAF();
+    	}
+    	else{
+    		alert('Rollup values cannot exceed the approved budget for that level.');
+    		
+    	}
+    	return false;
+    }    
+    </script>
+
+	</apex:form>
+    
+</apex:page>

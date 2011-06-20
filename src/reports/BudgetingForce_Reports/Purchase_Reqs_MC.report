@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <aggregates>
+        <calculatedFormula>Budget_Line__c.Budget_Line_Amount__c:SUM - Purchase_Request__c.Purchase_Request_Amount__c:SUM</calculatedFormula>
+        <datatype>number</datatype>
+        <developerName>FORMULA1</developerName>
+        <isActive>true</isActive>
+        <masterLabel>remaining amt  (converted)</masterLabel>
+        <scale>2</scale>
+    </aggregates>
+    <aggregates>
+        <calculatedFormula>Purchase_Request__c.Purchase_Request_Amount__c:SUM / Budget_Line__c.Budget_Line_Amount__c:SUM</calculatedFormula>
+        <datatype>number</datatype>
+        <developerName>FORMULA2</developerName>
+        <isActive>true</isActive>
+        <masterLabel>percent spent</masterLabel>
+        <scale>2</scale>
+    </aggregates>
+    <aggregates>
+        <calculatedFormula>Budget_Line__c.Budget_Line_Amount__c:SUM - Purchase_Request__c.Purchase_Request_Amount__c:SUM</calculatedFormula>
+        <datatype>number</datatype>
+        <developerName>FORMULA3</developerName>
+        <isActive>true</isActive>
+        <masterLabel>remaining amt</masterLabel>
+        <scale>2</scale>
+    </aggregates>
+    <colorRanges>
+        <columnName>FORMULA2</columnName>
+        <highBreakpoint>0.8</highBreakpoint>
+        <highColor>#54C254</highColor>
+        <lowBreakpoint>0.7</lowBreakpoint>
+        <lowColor>#C25454</lowColor>
+        <midColor>#C2C254</midColor>
+    </colorRanges>
+    <columns>
+        <field>Budgets__c.Program_Budgets__r.Budget_Lines1__r.Purchase_Requests1__r$PR__c</field>
+    </columns>
+    <columns>
+        <field>Budgets__c.Program_Budgets__r.Budget_Lines1__r.Purchase_Requests1__r$PO__c</field>
+    </columns>
+    <columns>
+        <field>Budgets__c.Program_Budgets__r.Budget_Lines1__r.Purchase_Requests1__r$Vendor_Placeholder__c</field>
+    </columns>
+    <columns>
+        <field>Budgets__c.Program_Budgets__r.Budget_Lines1__r.Purchase_Requests1__r$Description__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Budgets__c.Program_Budgets__r.Budget_Lines1__r$Budget_Line_Amount__c</field>
+    </columns>
+    <columns>
+        <aggregateTypes>Sum</aggregateTypes>
+        <field>Budgets__c.Program_Budgets__r.Budget_Lines1__r.Purchase_Requests1__r$Purchase_Request_Amount__c</field>
+    </columns>
+    <currency>USD</currency>
+    <filter>
+        <criteriaItems>
+            <column>Budgets__c$Budget_Area__c</column>
+            <operator>equals</operator>
+            <value>Alliances &amp; Marketing Ops</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Budgets__c$Period__c</column>
+            <operator>equals</operator>
+            <value>fy11q3</value>
+        </criteriaItems>
+    </filter>
+    <format>Summary</format>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Budgets__c.Program_Budgets__r$Name</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <groupingsDown>
+        <dateGranularity>Day</dateGranularity>
+        <field>Budgets__c.Program_Budgets__r.Budget_Lines1__r$Name</field>
+        <sortOrder>Asc</sortOrder>
+    </groupingsDown>
+    <name>Purchase Reqs_MC</name>
+    <params>
+        <name>co</name>
+        <value>0</value>
+    </params>
+    <reportType>budgets_with_programs_budget_lines_and_purchase_re__c</reportType>
+    <scope>organization</scope>
+    <showDetails>true</showDetails>
+    <timeFrameFilter>
+        <dateColumn>Budgets__c$CreatedDate</dateColumn>
+        <interval>INTERVAL_CURRENT</interval>
+    </timeFrameFilter>
+</Report>
